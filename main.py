@@ -1,3 +1,6 @@
+# jose eduardo viveros escamia - A01710605
+# Regresión Lineal Múltiple desde Cero
+
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
@@ -144,6 +147,27 @@ plt.show()
 print("\nEjemplo de predicciones:")
 for i in range(5):
     print(f"Real: {y_test[i]:.2f} - Predicho: {y_pred_test[i]:.2f}")
+
+# Gráfica de predicciones vs valores reales
+plt.figure(figsize=(8,6))
+plt.scatter(y_test, y_pred_test, alpha=0.7)
+plt.plot([y_test.min(), y_test.max()], [y_test.min(), y_test.max()], 'r--')
+plt.xlabel("Valor Real")
+plt.ylabel("Predicción")
+plt.title("Predicciones vs Valores Reales")
+plt.savefig("predicciones_vs_reales.png")
+plt.show()
+
+# Distribución del error
+residuals = y_test - y_pred_test
+plt.figure(figsize=(8,6))
+sns.histplot(residuals, kde=True, bins=30)
+plt.xlabel("Error (Residual)")
+plt.ylabel("Frecuencia")
+plt.title("Distribución del Error")
+plt.savefig("distribucion_error.png")
+plt.show()
+
 
 # ==========================
 # 11. Matriz de correlación final
