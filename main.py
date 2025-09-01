@@ -134,6 +134,8 @@ plt.ylabel("Error cuadrático medio")
 plt.title("Evolución del error en entrenamiento")
 plt.legend()
 plt.grid(True)
+plt.tight_layout()
+plt.savefig("grafica_mse.png")  # Guardar imagen para README
 plt.show()
 
 # ==========================
@@ -149,4 +151,6 @@ for i in range(5):
 plt.figure(figsize=(10,8))
 sns.heatmap(df[features + [target]].corr(), annot=True, cmap="coolwarm", center=0)
 plt.title("Correlación entre variables")
+plt.tight_layout()
+plt.savefig("grafica_correlacion.png")  # Guardar imagen para README
 plt.show()
