@@ -1,7 +1,6 @@
 
-<img width="560" height="315" alt="image" src="https://github.com/user-attachments/assets/64dfa7ef-c395-43f4-b8eb-43c28f701ad3" />
+<img width="950" height="200" alt="image" src="https://github.com/user-attachments/assets/64dfa7ef-c395-43f4-b8eb-43c28f701ad3" />
 
-<img width="950" height="200" alt="image" src="https://github.com/user-attachments/assets/040b69f6-96a2-4a9b-929b-b1e523766df6" />
 
 # Cancer_Regression_Analysis
 
