@@ -24,7 +24,7 @@ Fuente: [Breast Cancer Wisconsin (Diagnostic) Data Set](https://www.kaggle.com/d
 
 ## Objetivo
 
-El objetivo de este proyecto es **predecir el tamaño del área media del tumor** utilizando un modelo de regresión lineal implementado desde cero. Se busca explorar el impacto de las características seleccionadas sobre la variable objetivo y evaluar el desempeño del modelo mediante **MSE** y **R²**.
+Predecir el tamaño del área media del tumor utilizando un modelo de regresión lineal implementado desde cero, evaluando el impacto de las características seleccionadas sobre la variable objetivo mediante **MSE** y **R²**.
 
 ---
 
@@ -32,48 +32,33 @@ El objetivo de este proyecto es **predecir el tamaño del área media del tumor*
 
 ### ETL y Preprocesamiento de Datos
 
-1. **Carga de datos:**  
-   Se leyó el archivo CSV original y se creó un DataFrame de pandas.
-
-2. **Análisis inicial:**  
-   Se exploraron valores nulos y tipos de datos. La columna `diagnosis` fue eliminada para el modelo, ya que no se utiliza en la predicción de `area_mean`.
-
-3. **Selección de variables:**  
-   Se eligieron las variables más representativas basadas en correlación y relevancia clínica:  
-   - `radius_mean`, `perimeter_mean`, `smoothness_mean`, `compactness_mean`, `concavity_mean`, `texture_mean`.
-
-4. **Normalización:**  
-   - Las variables independientes fueron escaladas con **Z-score**:  
-     \[
-     Z = \frac{X - \text{media}}{\text{desviación estándar}}
-     \]  
-   - Esto asegura que todas las variables tengan la misma escala y evita que una domine el gradiente descendente.
-
-5. **División de datos:**  
-   - **80% entrenamiento** y **20% prueba**, para evaluar la generalización del modelo.
+1. **Carga de datos:** Se leyó el archivo CSV y se creó un DataFrame de pandas.  
+2. **Análisis inicial:** Se exploraron valores nulos y tipos de datos; la columna `diagnosis` se eliminó para la predicción de `area_mean`.  
+3. **Selección de variables:** Se eligieron las variables más representativas:  
+   - `radius_mean`, `perimeter_mean`, `smoothness_mean`, `compactness_mean`, `concavity_mean`, `texture_mean`.  
+4. **Normalización:** Variables escaladas con **Z-score** para mantener la misma escala y evitar dominancia en gradiente descendente.  
+5. **División de datos:** 80% entrenamiento, 20% prueba.
 
 ---
 
 ### Implementación del Modelo
 
-1. Se implementó un modelo de **regresión lineal desde cero**, usando:  
-   - Función hipótesis: \(y = X \cdot \theta + b\)  
-   - Función de costo: **Error Cuadrático Medio (MSE)**  
-   - Gradiente descendente: actualización iterativa de los pesos (\(\theta\)) y el bias (b) para minimizar el MSE.  
-
-2. Se registró el MSE en cada época para monitorear la convergencia.
+- Modelo de **regresión lineal desde cero**:  
+  - Función hipótesis: \(y = X \cdot \theta + b\)  
+  - Función de costo: **MSE**  
+  - Gradiente descendente: actualización iterativa de \(\theta\) y b.  
+- Registro de MSE por época para seguimiento de convergencia.
 
 ---
 
-### Entrenamiento del Modelo
+### Entrenamiento
 
 - **Learning rate:** 0.01  
 - **Épocas:** 2000  
-- Se utilizó todo el conjunto de entrenamiento para actualizar los pesos en cada iteración.
 
 ---
 
-### Evaluación del Modelo
+### Evaluación
 
 1. **Métricas obtenidas:**
    - MSE Entrenamiento: 2844.00  
@@ -81,8 +66,7 @@ El objetivo de este proyecto es **predecir el tamaño del área media del tumor*
    - R² Entrenamiento: 0.9774  
    - R² Prueba: 0.9819
 
-2. **Predicciones de ejemplo:**  
-   Se compararon los valores reales y predichos de la variable `area_mean` para las primeras cinco muestras:
+2. **Predicciones de ejemplo:**
 
 | Real  | Predicho |
 |-------|----------|
@@ -102,18 +86,39 @@ El objetivo de este proyecto es **predecir el tamaño del área media del tumor*
 ### Correlación entre variables
 ![Correlación](grafica_correlacion.png)
 
+### Predicciones vs valores reales
+![Predicciones vs Reales](predicciones_vs_reales.png)
+
+### Distribución de errores (residuals)
+![Distribución de errores](distribucion_error.png)
+
 ---
 
 ## Limitaciones
 
-- El modelo solo captura relaciones lineales entre variables.  
-- Algunas características podrían estar correladas, lo que puede afectar la interpretación de los pesos individuales.  
-- Se usó un conjunto limitado de variables seleccionadas manualmente; incluir más variables podría mejorar el desempeño.  
+- Modelo captura solo relaciones lineales.  
+- Variables seleccionadas manualmente, podría faltar información relevante.  
+- Posible correlación entre características que afecta interpretación de pesos.  
+- No se consideran interacciones no lineales.  
+- Sensible a outliers.  
+- Validación simple (entrenamiento/prueba), sin cross-validation.  
+- Dataset relativamente pequeño.
 
 ---
 
 ## Conclusión
 
-La regresión lineal implementada desde cero logró predecir correctamente el área media de los tumores, con un **R² superior a 0.97** en entrenamiento y prueba, indicando que el modelo explica la mayoría de la varianza de los datos.  
+El modelo de regresión lineal implementado desde cero logró predecir correctamente el área media de los tumores con **R²>0.97**, indicando que explica la mayoría de la varianza.  
+Permite comprender la influencia de cada característica y sirve de base para aprendizaje sobre implementación manual de algoritmos y gradiente descendente.  
 
-El enfoque permite comprender cómo cada característica impacta en la predicción y sirve como base para futuras mejoras, como probar técnicas de selección automática de variables, regularización o modelos más complejos.
+Aunque los resultados son buenos, es importante validar en otros datasets y considerar la inclusión de más variables, regularización y modelos no lineales para mejorar precisión y generalización.
+
+---
+
+## Mejoras a futuro
+
+- Implementar **regularización** (Ridge, Lasso) para reducir posible sobreajuste.  
+- Validación cruzada para evaluar estabilidad del modelo.  
+- Explorar **modelos no lineales** (regresión polinómica, árboles de decisión).  
+- Automatizar selección de variables y reducir correlaciones problemáticas.  
+- Crear **dashboard interactivo** para visualización de predicciones y errores.
