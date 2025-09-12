@@ -60,62 +60,16 @@ Predecir el tamaño del área media del tumor utilizando un modelo de regresión
 ---
 
 ### Evaluación
+![Evaluación Completa](evaluacion_completa.png)  
 
-1. **Métricas obtenidas:**
-   - MSE Entrenamiento: 2844.00  
-   - MSE Prueba: 2081.69  
-   - R² Entrenamiento: 0.9774  
-   - R² Prueba: 0.9819
+
 
 2. **Predicciones de ejemplo:**
 
-| Real  | Predicho |
-|-------|----------|
-| 481.90 | 492.81  |
-| 1130.00 | 1122.88 |
-| 748.90 | 809.41  |
-| 467.80 | 471.51  |
-| 402.90 | 391.12  |
-
----
-
-## Resultados gráficos
-
-### Evolución del error durante el entrenamiento
-![Evolución MSE](grafica_mse.png)  
-Esta gráfica muestra cómo el **Error Cuadrático Medio (MSE)** disminuye iteración por iteración durante el entrenamiento. Una pendiente descendente estable indica que el modelo está aprendiendo correctamente, que los pesos convergen hacia valores óptimos y que el gradiente descendente está funcionando de manera efectiva. La ausencia de oscilaciones grandes sugiere que el learning rate elegido es adecuado.
-
-### Correlación entre variables
-![Correlación](grafica_correlacion.png)  
-Visualiza las relaciones lineales entre las variables independientes y la variable objetivo. Valores cercanos a 1 o -1 indican alta correlación positiva o negativa. Esta gráfica es útil para identificar redundancias entre variables, detectar posibles multicolinealidades y guiar la selección de características más significativas para la predicción.
-
-### Predicciones vs valores reales
-![Predicciones vs Reales](predicciones_vs_reales.png)  
-Muestra la relación entre los valores predichos por el modelo y los valores reales del área media de los tumores. Los puntos deberían alinearse cerca de la línea diagonal (y=x), lo que indicaría predicciones precisas. Desviaciones significativas pueden indicar casos atípicos o limitaciones del modelo lineal.
 
 ### Distribución de errores (residuals)
-![Distribución de errores](distribucion_error.png)  
-Esta gráfica muestra los errores (residuals) de las predicciones. Una distribución centrada alrededor de cero y sin patrones visibles indica que el modelo no presenta sesgo sistemático, es decir, no subestima ni sobreestima consistentemente los valores. También permite detectar heterocedasticidad o outliers.
+![Distribución de errores](distribucion_errores.png)  
 
----
-
-## Limitaciones
-
-- Captura únicamente relaciones lineales entre variables; no modela interacciones complejas o no lineales.  
-- Algunas características podrían estar correlacionadas, afectando la interpretación de pesos individuales.  
-- Conjunto de variables seleccionado manualmente; podrían incluirse más características relevantes.  
-- Sensible a valores atípicos (outliers).  
-- Validación simple (entrenamiento/prueba), sin cross-validation ni técnicas robustas de evaluación.  
-- Dataset relativamente pequeño y específico, lo que limita la generalización.  
-- No se incorporan regularizaciones ni métricas adicionales como MAE o RMSLE.
-
----
-
-## Conclusión
-
-El modelo de regresión lineal implementado desde cero logró predecir correctamente el área media de los tumores con un **R²>0.97**, explicando la mayoría de la varianza de los datos. Las gráficas muestran que el modelo converge adecuadamente, produce predicciones consistentes y no evidencia sesgo sistemático. Este enfoque permite comprender cómo cada característica impacta en la predicción y brinda un aprendizaje práctico sobre implementación manual de gradiente descendente y análisis de errores. Aunque los resultados son satisfactorios, el modelo puede beneficiarse de mayor complejidad, selección automática de variables, y técnicas de regularización para mejorar la generalización y precisión.
-
----
 
 ## Mejoras a futuro
 
