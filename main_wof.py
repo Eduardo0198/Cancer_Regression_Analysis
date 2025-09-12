@@ -1,3 +1,4 @@
+
 # jose eduardo viveros escamia - A01710605
 # Regresión Lineal Múltiple desde Cero
 
@@ -9,18 +10,20 @@ from sklearn.preprocessing import StandardScaler
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import r2_score
 
-# ==========================
 # 1. Cargar datos
-# ==========================
 df = pd.read_csv(r"C:\Users\josed\Documents\Benj\Cancer_Data.csv")
 
 # 2. Matriz de correlación
 print("\n=== MATRIZ DE CORRELACIÓN ===")
 
+
 # 3. Selección de variables
+# Basicamente seleccioné las variables con mayor correlación con 'area_mean' osea nuestras x
 features = ["radius_mean", "perimeter_mean", "smoothness_mean", 
             "compactness_mean", "concavity_mean", "texture_mean"]
+# area_mean es nuestra y
 target = "area_mean"
+
 
 # Selecciona solo las features numéricas + target
 cols_numericas = features + [target]
@@ -56,16 +59,16 @@ print(f"\nDivisión de datos:")
 print(f" - Entrenamiento: {X_train.shape[0]} muestras")
 print(f" - Prueba: {X_test.shape[0]} muestras")
 
-# ==========================
 # 6. Funciones del modelo
-# ==========================
 def hipotesis(X, theta, b):
     return b + (X @ theta)
+
 
 def MSE(X, y, theta, b):
     y_pred = hipotesis(X, theta, b)
     error = y_pred - y
     return np.mean(error ** 2)
+
 
 def calcular_gradientes(X_batch, y_batch, theta, b):
     predicciones = hipotesis(X_batch, theta, b)
@@ -75,6 +78,7 @@ def calcular_gradientes(X_batch, y_batch, theta, b):
     for j in range(len(theta)):
         grad_theta[j] = np.mean(error * X_batch[:, j])
     return grad_theta, grad_b
+
 
 def GD(X, y, theta_inicial, b_inicial, lr, epochs):
     theta = theta_inicial.copy()
@@ -95,22 +99,18 @@ def GD(X, y, theta_inicial, b_inicial, lr, epochs):
             print(f"Epoch {epoch}: Error = {error_epoch:.6f}")
     return mejores_parametros[0], mejores_parametros[1], historial_error
 
-# ==========================
 # 7. Entrenamiento
-# ==========================
 n_caracteristicas = X_train.shape[1]
 theta_inicial = np.zeros(n_caracteristicas)
 b_inicial = 0.0
 learning_rate = 0.01
-epochs = 2000
+epochs = 200
 
 theta_entrenado, b_entrenado, historial_error = GD(
     X_train, y_train, theta_inicial, b_inicial, learning_rate, epochs
 )
 
-# ==========================
 # 8. Evaluación
-# ==========================
 y_pred_train = hipotesis(X_train, theta_entrenado, b_entrenado)
 y_pred_test = hipotesis(X_test, theta_entrenado, b_entrenado)
 
@@ -127,9 +127,8 @@ print("Bias:", b_entrenado)
 print(f"MSE Entrenamiento: {mse_train:.6f}, MSE Test: {mse_test:.6f}")
 print(f"R² Entrenamiento: {r2_train:.4f}, R² Test: {r2_test:.4f}")
 
-# ==========================
+
 # 9. Visualización de error
-# ==========================
 plt.figure(figsize=(8,5))
 plt.plot(historial_error, label="MSE")
 plt.xlabel("Iteraciones")
@@ -141,17 +140,15 @@ plt.tight_layout()
 plt.savefig("grafica_mse.png")  # Guardar imagen para README
 plt.show()
 
-# ==========================
 # 10. Predicciones de ejemplo
-# ==========================
 print("\nEjemplo de predicciones:")
 for i in range(5):
     print(f"Real: {y_test[i]:.2f} - Predicho: {y_pred_test[i]:.2f}")
 
 # Gráfica de predicciones vs valores reales
 plt.figure(figsize=(8,6))
-plt.scatter(y_test, y_pred_test, alpha=0.7)
-plt.plot([y_test.min(), y_test.max()], [y_test.min(), y_test.max()], 'r--')
+plt.scatter(y_test, y_pred_test, alpha=0.5, color = 'green')
+plt.plot([y_test.min(), y_test.max()], [y_test.min(), y_test.max()], 'r--', lw = 2)
 plt.xlabel("Valor Real")
 plt.ylabel("Predicción")
 plt.title("Predicciones vs Valores Reales")
@@ -168,10 +165,7 @@ plt.title("Distribución del Error")
 plt.savefig("distribucion_error.png")
 plt.show()
 
-
-# ==========================
 # 11. Matriz de correlación final
-# ==========================
 plt.figure(figsize=(10,8))
 sns.heatmap(df[features + [target]].corr(), annot=True, cmap="coolwarm", center=0)
 plt.title("Correlación entre variables")
