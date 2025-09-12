@@ -60,6 +60,7 @@ Predecir el tamaño del área media del tumor utilizando un modelo de regresión
 ---
 
 ### Evaluación
+![Evaluación Completa](evaluacion_completa.png)  
 
 
 
@@ -67,7 +68,7 @@ Predecir el tamaño del área media del tumor utilizando un modelo de regresión
 
 
 ### Distribución de errores (residuals)
-![Distribución de errores](distribucion_error.png)  
+![Distribución de errores](distribucion_errores.png)  
 
 
 ## Mejoras a futuro
