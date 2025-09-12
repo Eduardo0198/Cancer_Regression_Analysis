@@ -1,4 +1,5 @@
-<img width="950" height="200" alt="image" src="https://github.com/user-attachments/assets/040b69f6-96a2-4a9b-929b-b1e523766df6" />
+
+<img width="950" height="200" alt="image" src="https://github.com/user-attachments/assets/be0944e4-6832-4f6c-88a1-86610d295907" />
 
 # Cancer_Regression_Analysis
 
@@ -24,7 +25,7 @@ Fuente: [Breast Cancer Wisconsin (Diagnostic) Data Set](https://www.kaggle.com/d
 
 ## Objetivo
 
-Predecir el tamaño del área media del tumor utilizando un modelo de regresión lineal implementado desde cero, evaluando el impacto de las características seleccionadas sobre la variable objetivo mediante **MSE** y **R²**.
+Predecir el tamaño del área media del tumor utilizando un modelo de regresión lineal implementado desde cero, evaluando el impacto de las características seleccionadas sobre la variable objetivo mediante **MSE** y **R²**, y analizar la calidad de las predicciones mediante visualizaciones gráficas.
 
 ---
 
@@ -34,7 +35,7 @@ Predecir el tamaño del área media del tumor utilizando un modelo de regresión
 
 1. **Carga de datos:** Se leyó el archivo CSV y se creó un DataFrame de pandas.  
 2. **Análisis inicial:** Se exploraron valores nulos y tipos de datos; la columna `diagnosis` se eliminó para la predicción de `area_mean`.  
-3. **Selección de variables:** Se eligieron las variables más representativas:  
+3. **Selección de variables:** Variables más representativas basadas en correlación y relevancia clínica:  
    - `radius_mean`, `perimeter_mean`, `smoothness_mean`, `compactness_mean`, `concavity_mean`, `texture_mean`.  
 4. **Normalización:** Variables escaladas con **Z-score** para mantener la misma escala y evitar dominancia en gradiente descendente.  
 5. **División de datos:** 80% entrenamiento, 20% prueba.
@@ -81,44 +82,41 @@ Predecir el tamaño del área media del tumor utilizando un modelo de regresión
 ## Resultados gráficos
 
 ### Evolución del error durante el entrenamiento
-![Evolución MSE](grafica_mse.png)
+![Evolución MSE](grafica_mse.png)  
+Esta gráfica muestra cómo el **Error Cuadrático Medio (MSE)** disminuye iteración por iteración durante el entrenamiento. Una pendiente descendente estable indica que el modelo está aprendiendo correctamente, que los pesos convergen hacia valores óptimos y que el gradiente descendente está funcionando de manera efectiva. La ausencia de oscilaciones grandes sugiere que el learning rate elegido es adecuado.
 
 ### Correlación entre variables
-![Correlación](grafica_correlacion.png)
+![Correlación](grafica_correlacion.png)  
+Visualiza las relaciones lineales entre las variables independientes y la variable objetivo. Valores cercanos a 1 o -1 indican alta correlación positiva o negativa. Esta gráfica es útil para identificar redundancias entre variables, detectar posibles multicolinealidades y guiar la selección de características más significativas para la predicción.
 
 ### Predicciones vs valores reales
-![Predicciones vs Reales](predicciones_vs_reales.png)
+![Predicciones vs Reales](predicciones_vs_reales.png)  
+Muestra la relación entre los valores predichos por el modelo y los valores reales del área media de los tumores. Los puntos deberían alinearse cerca de la línea diagonal (y=x), lo que indicaría predicciones precisas. Desviaciones significativas pueden indicar casos atípicos o limitaciones del modelo lineal.
 
 ### Distribución de errores (residuals)
-![Distribución de errores](distribucion_error.png)
+![Distribución de errores](distribucion_error.png)  
+Esta gráfica muestra los errores (residuals) de las predicciones. Una distribución centrada alrededor de cero y sin patrones visibles indica que el modelo no presenta sesgo sistemático, es decir, no subestima ni sobreestima consistentemente los valores. También permite detectar heterocedasticidad o outliers.
 
 ---
 
 ## Limitaciones
 
-- Modelo captura solo relaciones lineales.  
-- Variables seleccionadas manualmente, podría faltar información relevante.  
-- Posible correlación entre características que afecta interpretación de pesos.  
-- No se consideran interacciones no lineales.  
-- Sensible a outliers.  
-- Validación simple (entrenamiento/prueba), sin cross-validation.  
-- Dataset relativamente pequeño.
+- Captura únicamente relaciones lineales entre variables; no modela interacciones complejas o no lineales.  
+- Algunas características podrían estar correlacionadas, afectando la interpretación de pesos individuales.  
+- Conjunto de variables seleccionado manualmente; podrían incluirse más características relevantes.  
+- Sensible a valores atípicos (outliers).  
+- Validación simple (entrenamiento/prueba), sin cross-validation ni técnicas robustas de evaluación.  
+- Dataset relativamente pequeño y específico, lo que limita la generalización.  
+- No se incorporan regularizaciones ni métricas adicionales como MAE o RMSLE.
 
 ---
 
 ## Conclusión
 
-El modelo de regresión lineal implementado desde cero logró predecir correctamente el área media de los tumores con **R²>0.97**, indicando que explica la mayoría de la varianza.  
-Permite comprender la influencia de cada característica y sirve de base para aprendizaje sobre implementación manual de algoritmos y gradiente descendente.  
-
-Aunque los resultados son buenos, es importante validar en otros datasets y considerar la inclusión de más variables, regularización y modelos no lineales para mejorar precisión y generalización.
+El modelo de regresión lineal implementado desde cero logró predecir correctamente el área media de los tumores con un **R²>0.97**, explicando la mayoría de la varianza de los datos. Las gráficas muestran que el modelo converge adecuadamente, produce predicciones consistentes y no evidencia sesgo sistemático. Este enfoque permite comprender cómo cada característica impacta en la predicción y brinda un aprendizaje práctico sobre implementación manual de gradiente descendente y análisis de errores. Aunque los resultados son satisfactorios, el modelo puede beneficiarse de mayor complejidad, selección automática de variables, y técnicas de regularización para mejorar la generalización y precisión.
 
 ---
 
 ## Mejoras a futuro
 
-- Implementar **regularización** (Ridge, Lasso) para reducir posible sobreajuste.  
-- Validación cruzada para evaluar estabilidad del modelo.  
-- Explorar **modelos no lineales** (regresión polinómica, árboles de decisión).  
-- Automatizar selección de variables y reducir correlaciones problemáticas.  
-- Crear **dashboard interactivo** para visualización de predicciones y errores.
+Para futuras versiones, se plantea implementar regularización (Ridge, Lasso) para reducir sobreajuste, validar el modelo con cross-validation para evaluar estabilidad y robustez, explorar modelos no lineales como regresión polinómica, árboles de decisión o redes neuronales simples para capturar relaciones más complejas, automatizar la selección de variables mediante técnicas estadísticas o de feature importance, reducir correlaciones problemáticas y outliers mediante preprocesamiento avanzado, y desarrollar dashboards interactivos para visualizar predicciones, errores y residuales de manera dinámica. Además, se considerará integrar métricas complementarias (MAE, RMSLE) para evaluar mejor la precisión y confiabilidad del modelo, y ampliar el dataset para mejorar la generalización a nuevos casos clínicos.
