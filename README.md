@@ -8,13 +8,13 @@
 Este proyecto tiene como objetivo predecir el área promedio de tumores (`area_mean`) a partir de un conjunto de características celulares, utilizando tres enfoques de regresión diferentes. Se comparan modelos manuales y basados en frameworks para evaluar su desempeño, interpretar resultados y analizar el impacto de la optimización de hiperparámetros. Además, se consideran aspectos éticos relacionados con el uso de datos médicos sensibles.
 
 ## Archivos del proyecto
-1. **`regresion_lineal_manual.py`**  
+1. **`main_lineal_regression.py`**  
    Implementa una regresión lineal múltiple desde cero, utilizando gradiente descendente y early stopping. Permite analizar el comportamiento del aprendizaje paso a paso, incluyendo la convergencia del error, bias y varianza.
 
-2. **`random_forest_basico.py`**  
+2. **`main_rf.py`**  
    Contiene la implementación de un Random Forest Regressor básico usando `scikit-learn` con hiperparámetros fijos. Este modelo sirve como referencia para comparar desempeño frente a la regresión lineal manual y evaluar la capacidad de generalización de un modelo de ensamble.
 
-3. **`random_forest_mejorado_gridsearch.py`**  
+3. **`main_rf_gs.py`**  
    Implementa un Random Forest optimizado mediante GridSearchCV, explorando combinaciones de hiperparámetros para maximizar el R² y minimizar el error. Incluye análisis de importancia de features y gráficos de predicciones vs valores reales para interpretar mejor los resultados.
 
 ## Requisitos
