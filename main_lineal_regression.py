@@ -1,6 +1,10 @@
+
+# ////////////////////////////////////////////////////
 # jose eduardo viveros escamia - A01710605
 # Regresión Lineal Múltiple desde Cero con Validación
+# ////////////////////////////////////////////////////
 
+import os
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
@@ -11,6 +15,14 @@ from sklearn.metrics import r2_score
 
 # 1. Cargar datos
 df = pd.read_csv(r"C:\Users\josed\Documents\Benj\Cancer_Data.csv")
+
+def save_plot(nombre):
+    ruta = os.path.join(carpeta, f"{nombre}.png")
+    plt.savefig(ruta, dpi=300, bbox_inches="tight")
+    print(f"Gráfica guardada en: {ruta}")
+
+carpeta = "images_lr"
+os.makedirs(carpeta, exist_ok=True)
 
 # 2. Selección de variables
 
@@ -31,11 +43,12 @@ plt.figure(figsize=(10,5))
 cor_target.plot(kind="bar", color="skyblue")
 plt.title(f"Correlación absoluta de las features con {target}")
 plt.ylabel("Correlación |r|")
+plt.tight_layout()
+save_plot("barras_todas_features.png")
 plt.show()
 
 # Visualisando los datos de la barras podemos elegir ahora si cuales fetures son los mejores
 # para predecir el target y cuales no elegir debido a su baja correlación y a una alta colinealidad
-
 features = [
     'texture_mean',       # Diversidad de textura
     'smoothness_mean',    # Suavidad
@@ -45,17 +58,35 @@ features = [
     'fractal_dimension_mean',  # Dimensión fractal
     'texture_worst',      # Peor textura
     'smoothness_worst',   # Peor suavidad
+    'compactness_worst',  # Peor compacidad
+    'concavity_worst',    # Peor concavidad
+    'symmetry_worst',     # Peor simetría
+    'fractal_dimension_se', # Peor dimensión fractal 
+    'radius_mean',      # Radio promedio
+#    'perimeter_mean',   # Perímetro promedio
+#    'radius_se',    # Peor radio
+#    'perimeter_se'   # Peor perímetro
 ]
+
+# Las features que estan comentadas tienen una alta colinealidad con otras features
+# y a pesar de que tienen una buena correlación con el target, no se consideran
+# para evitar problemas de multicolinealidad en la regresión lineal, asi que en ese 
+# sentido se prefiere tener menos features pero que sean independientes entre si, y solo agregamos 
+# un de esas fetures para ayudar que la R_2 suba un poco mas -> 'radius_mean'
 
 # Calcular matriz de correlación
 corr_matrix = df[features].corr()
 
 # Visualización
-plt.figure(figsize=(10, 8))
-sns.heatmap(corr_matrix, annot=True, fmt=".2f", cmap="coolwarm", square=True)
+plt.figure(figsize=(15, 8))
+sns.heatmap(corr_matrix, annot=True, fmt=".3f", cmap="coolwarm", center=0)
 plt.title("Matriz de correlación de features")
+plt.tight_layout()
+save_plot("matriz_fetures_seleccionadas.png")
 plt.show()
 
+# Selección de features y target
+# para poder usarlas con las funcion de GD
 X = df[features].values
 y = df[target].values.reshape(-1, 1)
 
@@ -73,9 +104,9 @@ y_original = y.flatten()
 
 
 # 4. División de datos en las 3 secciones
-# Train (60%) 
-# Validation (20%) 
-# Test (20%)
+# Train - (60%) 
+# Validation - (20%) 
+# Test - (20%)
 
 X_temp, X_test, y_temp, y_test = train_test_split(
     X_scaled, y_original, test_size=0.2, random_state=42
@@ -179,7 +210,9 @@ mse_test = MSE(X_test, y_test, theta_entrenado, b_entrenado)
 y_pred_test = hipotesis(X_test, theta_entrenado, b_entrenado)
 r2_test = r2_score(y_test, y_pred_test)
 
+
 # 9. Resultados en terminal
+print("\n//////// MODELO SIN FRAMEWORK /////////")
 print("\n" + "="*50)
 print("RESULTADOS FINALES")
 print("="*50)
@@ -193,6 +226,7 @@ print(f"R² Test: {r2_test:.4f}")
 print("-"*50)
 print(f"Número de épocas ejecutadas: {len(error_train_hist)}")
 print(f"Mejor error de validación: {min(error_val_hist):.6f}")
+
 
 # 10. Gráficas de evaluación
 plt.figure(figsize=(15, 10))
@@ -235,7 +269,7 @@ plt.title(f'Test: R² = {r2_test:.4f}')
 plt.legend()
 
 plt.tight_layout()
-plt.savefig("evaluacion_completa.png")
+save_plot("evaluacion_completa_lineal_regression")
 plt.show()
 
 # 11. Distribución de errores
@@ -262,7 +296,7 @@ plt.title('Distribución de Error - Test')
 plt.xlabel('Error')
 
 plt.tight_layout()
-plt.savefig("distribucion_errores.png")
+save_plot("distribucion_errores_lineal_regression.png")
 plt.show()
 
 # 12. Ejemplos de predicciones
@@ -280,3 +314,4 @@ metricas = pd.DataFrame({
     'Muestras': [len(y_train), len(y_val), len(y_test)]
 })
 print(metricas)
+
